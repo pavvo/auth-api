@@ -47,8 +47,17 @@ clientSchema.pre("save", async function (next) {
 });
 
 // Static method to login user
-clientSchema.statics.login = async function (email, password) {
-  const user = await this.findOne({ email });
+clientSchema.statics.login = async function (credential, password) {
+  const user = await this.findOne({
+    $or: [
+      {
+        email: credential,
+      },
+      {
+        userName: credential,
+      },
+    ],
+  });
 
   if (user) {
     const auth = await bcrypt.compare(password, user.password);
