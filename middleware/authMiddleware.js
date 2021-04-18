@@ -6,7 +6,7 @@ const requireAuth = (req, res, next) => {
 
   // Verify JW token
   if (token) {
-    jwt.verify(token, "pavletto", (err, decodedToken) => {
+    jwt.verify(token, process.env.TOKEN_SECRET, (err, decodedToken) => {
       if (err) {
         console.log(err.message);
         res.redirect("/login");
@@ -25,7 +25,7 @@ const checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
 
   if (token) {
-    jwt.verify(token, "pavletto", async (err, decodedToken) => {
+    jwt.verify(token, process.env.TOKEN_SECRET, async (err, decodedToken) => {
       if (err) {
         console.log(err.message);
         res.locals.user = null;
