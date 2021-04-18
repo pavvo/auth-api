@@ -2,7 +2,14 @@ module.exports.handleErrors = (err) => {
   let errors = {};
 
   if (err.code === 11000) {
-    errors["email"] = "That email is already in use";
+    if (Object.keys(err.keyPattern)[0] === "email") {
+      errors["email"] = "That email is already in use";
+    }
+
+    if (Object.keys(err.keyPattern)[0] === "username") {
+      errors["username"] = "That username is already in use";
+    }
+
     return errors;
   }
 

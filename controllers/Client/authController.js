@@ -18,10 +18,6 @@ module.exports.signup = async (req, res) => {
   try {
     const user = await Client.create({ username, email, password, uniqueString });
 
-    if (user) {
-      sendEmail(email);
-    }
-
     const token = createToken(user._id);
 
     res.cookie("jwt", token, {
